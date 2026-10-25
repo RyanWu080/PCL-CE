@@ -1,0 +1,80 @@
+name: Follow official releases (unrestrict)
+on:
+  schedule:
+    - cron: '41 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: official-unrestrict-releases
+  cancel-in-progress: false
+jobs:
+  discover:
+    if: github.repository == 'RyanWu080/PCL-CE'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      matrix: ${{ steps.scan.outputs.matrix }}
+      has_work: ${{ steps.scan.outputs.has_work }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - id: scan
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 .github/release-sync/sync.py scan
+  rebuild:
+    needs: discover
+    if: needs.discover.outputs.has_work == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    name: Rebuild ${{ matrix.tag }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+      - name: Build exact official tag without repository secrets
+        env:
+          UPSTREAM_RELEASE_ID: ${{ matrix.id }}
+        run: python3 .github/release-sync/sync.py build
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: unrestrict-${{ matrix.id }}
+          path: release-assets/*
+          if-no-files-found: error
+  publish:
+    needs: [discover, rebuild]
+    if: needs.discover.outputs.has_work == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.discover.outputs.matrix) }}
+    name: Publish ${{ matrix.tag }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: unrestrict-${{ matrix.id }}
+          path: release-assets
+      - name: Publish assets without executing upstream code
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UPSTREAM_RELEASE_ID: ${{ matrix.id }}
+        run: python3 .github/release-sync/sync.py publish
