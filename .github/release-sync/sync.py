@@ -183,8 +183,10 @@ def publish(release_id):
         local = api(f'repos/{DEST}/releases', 'POST', dict(metadata(current), tag_name=tag, draft=True))
     subprocess.run(['gh', 'release', 'upload', tag, '--repo', DEST, '--clobber',
                     *[str(p) for p in sorted(output.iterdir())]], check=True)
+    latest = api(f'repos/{UPSTREAM}/releases/latest')
+    is_latest = latest is not None and latest['id'] == current['id']
     api(f'repos/{DEST}/releases/{local["id"]}', 'PATCH',
-        dict(metadata(current), draft=False, make_latest='false' if current['prerelease'] else 'true'))
+        dict(metadata(current), draft=False, make_latest='true' if is_latest else 'false'))
     print('Published', local['html_url'])
 
 if __name__ == '__main__':

@@ -55,7 +55,7 @@ jobs:
           if-no-files-found: error
   publish:
     needs: [discover, rebuild]
-    if: needs.discover.outputs.has_work == 'true'
+    if: always() && !cancelled() && needs.discover.result == 'success' && needs.discover.outputs.has_work == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
