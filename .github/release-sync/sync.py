@@ -13,10 +13,9 @@ import urllib.request
 
 UPSTREAM = 'PCL-Community/PCL-CE'
 DEST = 'RyanWu080/PCL-CE'
-SINCE = '2026-10-25T00:00:00Z'
+MIN_VERSION = (2, 15, 1)
 POLICY = 'Plain Craft Launcher 2/Modules/Minecraft/RestrictedFeaturePolicy.cs'
 EXPECTED_BLOB = '252e4bb09b017285ca93cf3ccda5f177b2c2913a'
-PRE_RESTRICTION_BETA = 'd66cb76faeb438e85b7bd694c9f10f669044491d'
 MARKER = 'unrestrict-build.json'
 ROOT = Path(__file__).resolve().parent
 
@@ -51,15 +50,19 @@ def metadata(release):
     return {'name': release['name'], 'body': release.get('body') or '',
             'prerelease': release['prerelease']}
 
+def eligible_release(release):
+    match = re.fullmatch(r'v(\d+)\.(\d+)\.(\d+)(?:([-\.])[A-Za-z0-9.-]+)?', release['tag_name'])
+    if not match or release['draft']:
+        return False
+    version = tuple(int(match[i]) for i in (1, 2, 3))
+    if version > MIN_VERSION:
+        return True
+    return version == MIN_VERSION and match[4] is None and not release['prerelease']
+
 def select_candidates(items):
-    public = sorted((r for r in items if not r['draft']),
-                    key=lambda r: r['published_at'], reverse=True)
-    selected = {r['id']: r for r in public if r['published_at'] >= SINCE}
-    for beta in (False, True):
-        latest = next((r for r in public if r['prerelease'] == beta), None)
-        if latest:
-            selected[latest['id']] = latest
-    return sorted(selected.values(), key=lambda r: r['published_at'])
+    # v2.15.1 stable is the first restricted release. Never backfill its older betas.
+    return sorted((r for r in items if eligible_release(r)),
+                  key=lambda r: r['published_at'])
 
 def scan():
     existing = {r['tag_name']: r for r in releases(DEST)}
@@ -95,16 +98,13 @@ def patch_source(source):
             raise RuntimeError('Upstream region policy changed; review patch before publishing')
         shutil.copyfile(ROOT / 'RestrictedFeaturePolicy.cs', path)
         return 'policy-disabled'
-    # Only known historical versions before the restriction may omit the policy.
-    if subprocess.run(['git', 'merge-base', '--is-ancestor', 'HEAD', PRE_RESTRICTION_BETA], cwd=source).returncode:
-        raise RuntimeError('Policy missing in an unfamiliar version; manual review required')
-    return 'historical-version-before-region-restriction'
+    raise RuntimeError('Region policy is missing; review upstream before publishing')
 
 def build(release_id):
     if not release_id.isdigit():
         raise ValueError('Release ID must be numeric')
     release = api(f'repos/{UPSTREAM}/releases/{release_id}')
-    if not release or release['draft']:
+    if not release or not eligible_release(release):
         raise RuntimeError('Official release no longer published')
     tag = release['tag_name']
     if not re.fullmatch(r'v\d+\.\d+\.\d+(?:[-.][A-Za-z0-9]+)*', tag):
@@ -149,7 +149,7 @@ def publish(release_id):
         raise ValueError('Invalid manifest')
     # Use metadata afresh, but reject a changed release channel during the build.
     current = api(f'repos/{UPSTREAM}/releases/{release_id}')
-    if not current or current['draft'] or current['tag_name'] != tag or ('Beta' if current['prerelease'] else 'Release') != config:
+    if not current or not eligible_release(current) or current['tag_name'] != tag or ('Beta' if current['prerelease'] else 'Release') != config:
         raise RuntimeError('Official release changed during build; retry')
     upstream_commit = api(f'repos/{UPSTREAM}/commits/{urllib.parse.quote(tag, safe="")}')['sha']
     if commit != upstream_commit or str(manifest['release_id']) != release_id:
@@ -198,4 +198,5 @@ if __name__ == '__main__':
         publish(os.environ['UPSTREAM_RELEASE_ID'])
     else:
         raise ValueError('Unknown command')
+
 
