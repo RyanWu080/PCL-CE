@@ -1,73 +1,35 @@
-[简体中文](README.md) | **English** | [繁體中文](README-ZH_TW.md)
+ [绠€浣撲腑鏂嘳(README.md) | **English** | [绻侀珨涓枃](README-ZH_TW.md)
 
-<div align="center">
+# PCL-CE unrestrict
 
-<img src="Plain Craft Launcher 2/Images/icon.ico" alt="Logo" width="80" height="80">
+An unofficial fork that follows [PCL-CE](https://github.com/PCL-Community/PCL-CE) releases and builds Windows executables with region-based feature restrictions disabled. The patch changes `RestrictedFeaturePolicy.cs` while retaining region assessment.
 
-# PCL Community Edition
+## Downloads
 
-[![Stars](https://img.shields.io/github/stars/PCL-Community/PCL-CE?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTggLjI1YS43NS43NSAwIDAgMSAuNjczLjQxOGwxLjg4MiAzLjgxNSA0LjIxLjYxMmEuNzUuNzUgMCAwIDEgLjQxNiAxLjI3OWwtMy4wNDYgMi45Ny43MTkgNC4xOTJhLjc1MS43NTEgMCAwIDEtMS4wODguNzkxTDggMTIuMzQ3bC0zLjc2NiAxLjk4YS43NS43NSAwIDAgMS0xLjA4OC0uNzlsLjcyLTQuMTk0TC44MTggNi4zNzRhLjc1Ljc1IDAgMCAxIC40MTYtMS4yOGw0LjIxLS42MTFMNy4zMjcuNjY4QS43NS43NSAwIDAgMSA4IC4yNVoiIGZpbGw9IiNlYWM1NGYiLz48L3N2Zz4=&logoSize=auto&label=stars&labelColor=444444&color=eac54f)](https://github.com/PCL-Community/PCL-CE/)
-![GitHub Release](https://img.shields.io/github/v/release/PCL-Community/PCL-CE?label=release&logo=github&style=for-the-badge)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/PCL-Community/PCL-CE/build-test.yml?style=for-the-badge)
+Open [Releases](https://github.com/RyanWu080/PCL-CE-unrestrict/releases) and download an executable ending in `_unrestrict.exe`: x64 for Intel/AMD PCs, ARM64 for Windows on ARM. Install [.NET 10 Desktop Runtime](https://get.dot.net/10).
 
-[![Issues](https://img.shields.io/github/issues/PCL-Community/PCL-CE?style=for-the-badge&label=issues&labelColor=444444&color=1F883D&logo=github)](https://github.com/PCL-Community/PCL-CE/issues)
-[![Pull requests](https://img.shields.io/github/issues-pr/PCL-Community/PCL-CE?style=for-the-badge&label=pull%20requests&labelColor=444444&color=1F883D&logo=github)](https://github.com/PCL-Community/PCL-CE/pulls)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PCL-Community/PCL-CE/total?style=for-the-badge)
-[![Bilibili](https://img.shields.io/badge/Threads-bilibili-00A4DB?style=for-the-badge&labelColor=444444&logo=bilibili)](https://space.bilibili.com/3546847192811755/dynamic) <br />
+GitHub's source archives refer to the original upstream tags. The applied patch is stored in `.github/release-sync/RestrictedFeaturePolicy.cs`; `unrestrict-build.json` records the source and binary checksums.
 
-<a href="https://trendshift.io/repositories/21800?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-21800" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/21800/daily?language=C%23" alt="PCL-Community%2FPCL-CE | Trendshift" width="250" height="55"/></a>
-<a href="https://trendshift.io/repositories/21800" target="_blank"><img src="https://trendshift.io/api/badge/repositories/21800" alt="PCL-Community%2FPCL-CE | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+## Release tracking
 
-[download](https://github.com/PCL-Community/PCL-CE/releases/latest) |
-[Upstream repo](https://github.com/Meloong-Git/PCL)
+- Starts at **v2.15.1 stable**. Older versions and v2.15.1 betas are excluded; later stable and beta versions are included.
+- Checks upstream releases hourly at minute 41. GitHub scheduling may be delayed.
+- Builds x64 and ARM64 from each exact official tag with the guarded patch. Publishes only after successful builds.
+- Copies the official tag, title, description and prerelease status. Executable filenames include `unrestrict`; published binaries are not repeatedly rebuilt. Description changes are synchronized.
+- Stops if the policy changes, the patch is incompatible or compilation fails.
 
-[Submit issues](https://github.com/PCL-Community/PCL-CE/issues/new/choose) |
-[Contribution Guidelines](https://github.com/PCL-Community/PCL-CE/wiki/开发指南)
+Release descriptions are copied verbatim. External download links and signing information in those descriptions refer to the official binaries, not the modified assets here.
 
-</div>
+## Repository layout
 
-PCL CE is a community edition developed as a secondary project based on PCL’s open-source code. It includes features and improvements that have not yet been implemented in the main branch.
+`dev` holds this fork's documentation and automation. `custom/dev-unrestricted` merges upstream development code hourly at minute 23, preserving a dedicated patch commit and stopping on conflicts without force-pushing; its documentation remains upstream's. Release builds use official tags independently of this development branch.
 
-The version numbers of the community edition do not strictly correspond to those of the main branch, so please do not report community edition issues to the official repository.
+The workflows are `sync-custom-dev.yml` and `follow-official-releases.yml`. Builds run without official private service credentials, separately from the job that publishes assets.
 
-Everyone is welcome to try it out!
+## Validation and attribution
 
-**Developing group:** [599620549](https://qm.qq.com/q/PNQA4Md8wc) | **User group 1:** [1028074835](https://qm.qq.com/q/qrMGJo8BQQ) | **User group 2:** [1070029541](https://qm.qq.com/q/lBywbDMWhG)
+Automation, filtering, compilation and publishing have been verified. Startup, login and download features still require runtime testing. Features requiring official private service credentials may differ from official builds. Upstream signatures do not apply to modified binaries.
 
-## 💻 Supported Platforms
+Source: [PCL-Community/PCL-CE](https://github.com/PCL-Community/PCL-CE), maintained by community developers and based on PCL by 榫欒吘鐚穬. `Plain Craft Launcher 2/` retains its [custom license](Plain%20Craft%20Launcher%202/LICENCE); other directories retain [Apache License 2.0](LICENSE). Original licenses, copyright and attribution are preserved.
 
-| Operating System | Support Status | Requirements |
-|---|---|---|
-| Windows 10 1809 (17763) or later | ✅ Fully supported | [.NET 10 Desktop Runtime](http://get.dot.net/10) |
-| Windows 8 to Windows 10 1809 (17763) | ⚠️ Expected to run; community support offered at discretion | [.NET 10 Desktop Runtime](http://get.dot.net/10) |
-| Windows 7 or earlier | ❌ Not supported | N/A |
-| macOS / Linux / Other OS | ⚠️ Cross-platform development only (cross-compilation) | [.NET 10 SDK](http://get.dot.net/10) |
-
-**✅ Fully supported**: We will provide as much support as possible, but you must ensure you are using the latest version of the launcher.
-
-**⚠️ Expected to run; community support offered at discretion**: PCL CE is expected to run on these platforms, but full functionality is not guaranteed. You may need to upgrade to a fully supported OS version to receive further community technical support.
-
-**❌ Not supported**: PCL CE may not be usable on these platforms and might not even launch at all. Please upgrade your OS to use PCL CE.
-
-**⚠️ Cross-platform development only (cross-compilation)**: PCL CE’s source code can be built on macOS and Linux, but it cannot run directly. As a developer, you can develop on these platforms and then move the build artifacts to Windows for testing.
-
-**Note**:     
-The community only supports the latest version of the launcher.    
-Depending on the nature of certain issues (e.g., an incomplete system environment), you may still need to upgrade your OS to continue receiving support.    
-PCL CE always recommends using the latest version of your OS for the best experience.    
-You can still try using the latest launcher version on unsupported platforms, but you may encounter many additional problems.
-
-## 🔒 License
-
-- `Plain Craft Launcher 2/` uses [Custom License](https://github.com/PCL-Community/PCL-CE/blob/dev/Plain%20Craft%20Launcher%202/LICENCE)
-- `All other directories` use [Apache License 2.0](https://github.com/PCL-Community/PCL-CE/blob/dev/LICENSE)
-
-## 🌟 Statistic
-![Alt](https://repobeats.axiom.co/api/embed/3e46296e6e3a134991a783480fd2f62723bb0353.svg "Repobeats analytics image")
-
-[![Star History Chart](https://api.star-history.com/svg?repos=PCL-Community/PCL-CE&type=Date)](https://www.star-history.com/#PCL-Community/PCL-CE&Date)
-
-**Views** (Total / Today): [![Hits](https://hits.zkitefly.eu.org/?tag=https://github.com/PCL-Community/PCL-CE)](https://hits.zkitefly.eu.org/?tag=https://github.com/PCL-Community/PCL-CE&web=true)
-## ❤️ Contributors
-
-[![](https://contrib.rocks/image?repo=PCL-Community/PCL-CE)](https://github.com/PCL-Community/PCL-CE/graphs/contributors)
+Investigate fork-specific automation and patch issues here before reporting them as official-release issues.

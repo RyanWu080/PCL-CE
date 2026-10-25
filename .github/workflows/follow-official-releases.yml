@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   discover:
-    if: github.repository == 'RyanWu080/PCL-CE'
+    if: github.repository == 'RyanWu080/PCL-CE-unrestrict'
     runs-on: ubuntu-latest
     permissions:
       contents: write

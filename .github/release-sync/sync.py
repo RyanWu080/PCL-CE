@@ -12,7 +12,7 @@ import urllib.parse
 import urllib.request
 
 UPSTREAM = 'PCL-Community/PCL-CE'
-DEST = 'RyanWu080/PCL-CE'
+DEST = 'RyanWu080/PCL-CE-unrestrict'
 MIN_VERSION = (2, 15, 1)
 POLICY = 'Plain Craft Launcher 2/Modules/Minecraft/RestrictedFeaturePolicy.cs'
 EXPECTED_BLOB = '252e4bb09b017285ca93cf3ccda5f177b2c2913a'

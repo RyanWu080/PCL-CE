@@ -1,73 +1,32 @@
-**简体中文** | [English](README-EN.md) | [繁體中文](README-ZH_TW.md)
+**绠€浣撲腑鏂?* | [English](README-EN.md) | [绻侀珨涓枃](README-ZH_TW.md)
 
-<div align="center">
+# PCL-CE unrestrict
 
-<img src="Plain Craft Launcher 2/Images/icon.ico" alt="Logo" width="80" height="80">
+璺熼殢 [PCL 绀惧尯鐗堬紙PCL-CE锛塢(https://github.com/PCL-Community/PCL-CE) 瀹樻柟鍙戠増锛岃嚜鍔ㄦ瀯寤鸿В闄ゅ湴鍖哄姛鑳介檺鍒剁殑鐗堟湰銆俓n
+鏈粨搴撴槸涓汉缁存姢鐨勯潪瀹樻柟 fork锛屾簮鐮佸拰涓昏鍔熻兘鏉ヨ嚜涓婃父銆備慨鏀归泦涓湪 `RestrictedFeaturePolicy.cs`锛氫繚鐣欏湴鍖鸿瘎浼伴€昏緫锛岃鍦板尯鍔熻兘闄愬埗妫€鏌ョ洿鎺ユ斁琛屻€俓n
+## 涓嬭浇
 
-# PCL Community Edition
+鍓嶅線 [Releases](https://github.com/RyanWu080/PCL-CE-unrestrict/releases)锛岄€夋嫨瀵瑰簲鐗堟湰鐨勯檮浠讹細
 
-[![Stars](https://img.shields.io/github/stars/PCL-Community/PCL-CE?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiI+PHBhdGggZD0iTTggLjI1YS43NS43NSAwIDAgMSAuNjczLjQxOGwxLjg4MiAzLjgxNSA0LjIxLjYxMmEuNzUuNzUgMCAwIDEgLjQxNiAxLjI3OWwtMy4wNDYgMi45Ny43MTkgNC4xOTJhLjc1MS43NTEgMCAwIDEtMS4wODguNzkxTDggMTIuMzQ3bC0zLjc2NiAxLjk4YS43NS43NSAwIDAgMS0xLjA4OC0uNzlsLjcyLTQuMTk0TC44MTggNi4zNzRhLjc1Ljc1IDAgMCAxIC40MTYtMS4yOGw0LjIxLS42MTFMNy4zMjcuNjY4QS43NS43NSAwIDAgMSA4IC4yNVoiIGZpbGw9IiNlYWM1NGYiLz48L3N2Zz4=&logoSize=auto&label=stars&labelColor=444444&color=eac54f)](https://github.com/PCL-Community/PCL-CE/)
-![GitHub Release](https://img.shields.io/github/v/release/PCL-Community/PCL-CE?label=release&logo=github&style=for-the-badge)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/PCL-Community/PCL-CE/build-test.yml?style=for-the-badge)
+- 鏅€?Intel / AMD Windows 鐢佃剳锛歚PCL2_CE_Release_x64_unrestrict.exe`锛孊eta 瀵瑰簲 `PCL2_CE_Beta_x64_unrestrict.exe`銆俓n- Windows ARM 璁惧锛氶€夋嫨鏂囦欢鍚嶅寘鍚?`ARM64_unrestrict.exe` 鐨勯檮浠躲€俓n- 杩愯鐜锛歔.NET 10 Desktop Runtime](https://get.dot.net/10)銆俓n
+璇蜂笅杞藉甫 `unrestrict` 鐨勫彲鎵ц闄勪欢銆俁elease 涓殑鑷姩婧愮爜鍘嬬缉鍖呮潵鑷畼鏂瑰師濮嬫爣绛撅紱瑙ｉ櫎闄愬埗琛ヤ竵淇濆瓨鍦ㄦ湰浠撳簱鐨?`.github/release-sync/RestrictedFeaturePolicy.cs`锛屾瀯寤烘潵婧愬拰鏂囦欢鏍￠獙鍊艰闄勪欢 `unrestrict-build.json`銆俓n
+## 鑷姩鍙戝竷瑙勫垯
 
-[![Issues](https://img.shields.io/github/issues/PCL-Community/PCL-CE?style=for-the-badge&label=issues&labelColor=444444&color=1F883D&logo=github)](https://github.com/PCL-Community/PCL-CE/issues)
-[![Pull requests](https://img.shields.io/github/issues-pr/PCL-Community/PCL-CE?style=for-the-badge&label=pull%20requests&labelColor=444444&color=1F883D&logo=github)](https://github.com/PCL-Community/PCL-CE/pulls)
-![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/PCL-Community/PCL-CE/total?style=for-the-badge)
-[![哔哩哔哩](https://img.shields.io/badge/动态-bilibili-00A4DB?style=for-the-badge&labelColor=444444&logo=bilibili)](https://space.bilibili.com/3546847192811755/dynamic) <br />
+- 浠?**v2.15.1 姝ｅ紡鐗?*涓鸿捣鐐癸紱涓嶈ˉ鍙?v2.15.1 涔嬪墠鐨勭増鏈垨 v2.15.1 鐨勬棫 Beta銆俓n- 姣忓皬鏃剁 41 鍒嗛挓妫€鏌ュ畼鏂规柊 Release锛屽寘鎷悗缁洿楂樼増鏈殑姝ｅ紡鐗堝拰 Beta銆侴itHub 璋冨害鍙兘寤惰繜銆俓n- 鏍规嵁瀹樻柟瀵瑰簲鏍囩鍙栨簮鐮併€佸簲鐢ㄨˉ涓侊紝鍒嗗埆鏋勫缓 x64 鍜?ARM64锛涙瀯寤烘垚鍔熷悗鎵嶅叕寮€鍙戝竷銆俓n- 鏍囩銆佺増鏈爣棰樸€佽鏄庡拰姝ｅ紡 / Beta 鏍囪瘑璺熼殢瀹樻柟锛涢檮浠跺悕澧炲姞 `unrestrict`銆傚凡鍙戝竷鐗堟湰涓嶄細閲嶅鏋勫缓锛屽畼鏂硅鏄庢洿鏂版椂浼氬悓姝ャ€俓n- 涓婃父闄愬埗浠ｇ爜鍙樺寲銆佽ˉ涓佷笉鍏煎鎴栫紪璇戝け璐ユ椂鍋滄璇ョ増鏈彂甯冿紝绛夊緟妫€鏌ャ€俓n
+Release 璇存槑鎸夊畼鏂瑰師鏂囧悓姝ワ紝鍏朵腑鐨勫閮ㄤ笅杞介摼鎺ュ拰绛惧悕淇℃伅灞炰簬瀹樻柟鍙戣鐗堬紱鏈粨搴撲慨鏀瑰悗鐨勯檮浠朵互鏈粨搴撶殑 Assets 涓哄噯銆俓n
+## 鍒嗘敮涓庡伐浣滄祦
 
-<a href="https://trendshift.io/repositories/21800?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-21800" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/21800/weekly?language=C%23" alt="PCL-Community%2FPCL-CE | Trendshift" width="250" height="55"/></a>
-<a href="https://trendshift.io/repositories/21800" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/repositories/21800" alt="PCL-Community%2FPCL-CE | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+| 浣嶇疆 | 鐢ㄩ€?|
+| --- | --- |
+| `dev`锛堥粯璁ゅ垎鏀級 | 鏈粨搴撹鏄庛€佽嚜鍔ㄥ寲閰嶇疆鍜屽彂甯冭剼鏈?|
+| `custom/dev-unrestricted` | 璺熼殢涓婃父 `dev` 鐨勫紑鍙戞簮鐮侊紝淇濈暀鍗曠嫭鐨勮В闄ら檺鍒舵彁浜わ紱鍏朵腑璇存槑鏂囨。娌跨敤涓婃父 |
+| `sync-custom-dev.yml` | 姣忓皬鏃剁 23 鍒嗛挓鍚堝苟涓婃父寮€鍙戜唬鐮侊紝鍐茬獊鏃跺仠姝紝淇濈暀琛ヤ竵锛屼笉寮哄埗鎺ㄩ€?|
+| `follow-official-releases.yml` | 妫€娴嬪畼鏂?Release銆佹瀯寤哄苟鍙戝竷瀵瑰簲鐨勮В闄ら檺鍒剁増 |
 
-[社区版下载](https://github.com/PCL-Community/PCL-CE/releases/latest) |
-[上游存储库](https://github.com/Meloong-Git/PCL)
+鍙戝竷鏋勫缓浣跨敤**瀹樻柟鐗堟湰鏍囩**锛屼笉浣跨敤寮€鍙戝垎鏀殑鏈€鏂颁唬鐮併€傚紑鍙戞簮鐮佸悓姝ヤ笌 Release 鍙戝竷鐩镐簰鐙珛銆俓n
+## 褰撳墠楠岃瘉鑼冨洿
 
-[提交问题](https://github.com/PCL-Community/PCL-CE/issues/new/choose) |
-[贡献指南](https://github.com/PCL-Community/PCL-CE/wiki/开发指南)
-
-</div>
-
-PCL CE 是基于 PCL 开源代码二次开发的社区版本，包括了主线暂未制作的功能和改进！
-
-社区版的版本号与主线并非严格对应关系，也请不要向官方仓库反馈社区版问题。
-
-欢迎大家来用用看！
-
-**开发群:** [599620549](https://qm.qq.com/q/PNQA4Md8wc)[✦](https://t.me/+78XW2bUOvKJjMTZl) | **用户 1 群:** [1028074835](https://qm.qq.com/q/qrMGJo8BQQ) | **用户 2 群:** [1070029541](https://qm.qq.com/q/lBywbDMWhG)
-
-## 💻 支持平台
-
-| 操作系统 | 支持情况 | 环境要求 |
-|---|---|---|
-| Windows 10 1809 (17763) 或更高 | ✅ 完整支持 | [.NET 10 Desktop Runtime](https://get.dot.net/10) |
-| Windows 8 - Windows 10 1809 (17763) | ⚠️ 理论能跑，酌情提供社区支持 | [.NET 10 Desktop Runtime](https://get.dot.net/10) |
-| Windows 7 或更低版本 | ❌ 不支持 | / |
-| macOS / Linux / 其他操作系统 | ⚠️ 仅跨平台开发支持（交叉编译） | [.NET 10 SDK](https://get.dot.net/10) |
-
-**✅ 完整支持**：尽可能提供一切相关支持，但必须确保启动器为最新版本。
-
-**⚠️ 理论能跑，酌情提供社区支持**：PCL CE 应该可以在这些平台上运行，但不保证功能完全可用。你可能需要升级到完整支持的系统版本以获得进一步社区技术支持。
-
-**❌ 不支持**：PCL CE 在这些平台的可用性较低，甚至压根打不开。请升级操作系统以使用 PCL CE。
-
-**⚠️ 仅跨平台开发支持（交叉编译）**：PCL CE 的源代码可以在 macOS 与 Linux 平台编译，但无法直接运行。作为开发者，你可以在这些平台上进行开发，然后将编译产物转移到 Windows 系统测试。
-
-**注**：    
-社区仅对最新版本的启动器提供支持。    
-取决于部分问题的特殊性（如系统不完整），有时你仍然必须升级操作系统以继续获得支持。    
-PCL CE 始终建议使用最新版本的操作系统以获得最佳体验。    
-你仍然可以尝试在不受支持的系统上使用 PCL CE，但可能会遇到很多额外问题。
-
-## 🔒 许可证
-
-- `Plain Craft Launcher 2/` 使用 [自定义许可证](https://github.com/PCL-Community/PCL-CE/blob/dev/Plain%20Craft%20Launcher%202/LICENCE)
-- `其余所有目录` 使用 [Apache License 2.0](https://github.com/PCL-Community/PCL-CE/blob/dev/LICENSE)
-
-## 🌟 统计数据
-![Alt](https://repobeats.axiom.co/api/embed/3e46296e6e3a134991a783480fd2f62723bb0353.svg "Repobeats analytics image")
-
-[![Star History Chart](https://api.star-history.com/chart?repos=PCL-Community/PCL-CE&type=date&legend=top-left&sealed_token=Ts-GaAXJ5nb9fJERusrXneo05pfZ83tMhReHJ98nmmlemBTqHS5Ozocdep1MTMdsX-6CRiQH9TqiS1Kk7SxjTfk02eUOxnm25oHff6TLLvrY7pGujOkU1IwjVFQLE-5GJYogutJAyI78jujBlOnpk3J2OKAY1PBhmkyUOzW1C1sdz5BzPbj2eBbJGvDx)](https://www.star-history.com/?repos=PCL-Community%2FPCL-CE&type=date&legend=top-left)
-
-**此页浏览量**（总计 / 今日）：[![Hits](https://hits.zkitefly.eu.org/?tag=https://github.com/PCL-Community/PCL-CE)](https://hits.zkitefly.eu.org/?tag=https://github.com/PCL-Community/PCL-CE&web=true)
-## ❤️ 贡献者
-
-[![](https://contrib.rocks/image?repo=PCL-Community/PCL-CE)](https://github.com/PCL-Community/PCL-CE/graphs/contributors)
+宸查獙璇佽嚜鍔ㄥ悓姝ャ€佺増鏈瓫閫夈€佺紪璇戝拰鍙戝竷娴佺▼锛涘疄闄呭惎鍔ㄣ€佺櫥褰曞拰涓嬭浇鍔熻兘浠嶉渶杩愯楠岃瘉銆傛瀯寤烘湭鍖呭惈瀹樻柟绉佹湁鏈嶅姟瀵嗛挜锛屼緷璧栬繖浜涘瘑閽ョ殑鏈嶅姟鍔熻兘鍙兘涓庡畼鏂规瀯寤轰笉鍚屻€傚畼鏂圭鍚嶄笉閫傜敤浜庝慨鏀瑰悗鐨勪簩杩涘埗鏂囦欢銆俓n
+## 鏉ユ簮涓庤鍙痋n
+- 涓婃父椤圭洰锛歔PCL-Community/PCL-CE](https://github.com/PCL-Community/PCL-CE)锛屽熀浜庨緳鑵剧尗璺冪殑 PCL 寮€婧愪唬鐮侊紝鐢辩ぞ鍖哄紑鍙戣€呯淮鎶ゃ€俓n- `Plain Craft Launcher 2/` 浣跨敤鍘熸湁 [鑷畾涔夎鍙瘉](Plain%20Craft%20Launcher%202/LICENCE)銆俓n- 鍏朵綑鐩綍浣跨敤 [Apache License 2.0](LICENSE)銆傚師鏈夎鍙瘉銆佺増鏉冨拰浣滆€呭綊灞炰繚鎸佷笉鍙樸€俓n
+鏈?fork 鐨勮嚜鍔ㄥ寲鍜岃В闄ら檺鍒剁浉鍏抽棶棰樿鍏堝湪鏈粨搴撴帓鏌ワ紝鍕垮皢鍏跺綋浣滃畼鏂瑰彂琛岀増鍙嶉銆俓n
