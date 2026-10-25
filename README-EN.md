@@ -1,4 +1,4 @@
- [绠€浣撲腑鏂嘳(README.md) | **English** | [绻侀珨涓枃](README-ZH_TW.md)
+ [简体中文](README.md) | **English** | [繁體中文](README-ZH_TW.md)
 
 # PCL-CE unrestrict
 
@@ -30,6 +30,6 @@ The workflows are `sync-custom-dev.yml` and `follow-official-releases.yml`. Buil
 
 Automation, filtering, compilation and publishing have been verified. Startup, login and download features still require runtime testing. Features requiring official private service credentials may differ from official builds. Upstream signatures do not apply to modified binaries.
 
-Source: [PCL-Community/PCL-CE](https://github.com/PCL-Community/PCL-CE), maintained by community developers and based on PCL by 榫欒吘鐚穬. `Plain Craft Launcher 2/` retains its [custom license](Plain%20Craft%20Launcher%202/LICENCE); other directories retain [Apache License 2.0](LICENSE). Original licenses, copyright and attribution are preserved.
+Source: [PCL-Community/PCL-CE](https://github.com/PCL-Community/PCL-CE), maintained by community developers and based on PCL by 龙腾猫跃. `Plain Craft Launcher 2/` retains its [custom license](Plain%20Craft%20Launcher%202/LICENCE); other directories retain [Apache License 2.0](LICENSE). Original licenses, copyright and attribution are preserved.
 
 Investigate fork-specific automation and patch issues here before reporting them as official-release issues.
