@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -65,6 +65,7 @@ public partial class FormMain
         ThemeService.ColorThemeChanged += theme => ThemeManager.ThemeRefresh((int)theme);
         // 窗体参数初始化
         ModMain.frmMain = this;
+        Navigation = new NavigationService(this);
         ModMain.frmLaunchLeft = new PageLaunchLeft();
         ModMain.frmLaunchRight = new PageLaunchRight();
         // 版本号改变
@@ -1661,13 +1662,17 @@ public partial class FormMain
     public MyPageLeft pageLeft;
     public MyPageRight pageRight;
 
+    public INavigationService Navigation { get; }
+
+    private object? _pendingParameter;
+
     // 引发实际页面切换的入口
     private bool isChangingPage;
 
     /// <summary>
     ///     切换页面，并引起对应选择 UI 的改变。
     /// </summary>
-    public void PageChange(PageStackData stack, PageSubType subType = PageSubType.Default)
+    public void PageChange(PageStackData stack, PageSubType subType = PageSubType.Default, object? parameter = null)
     {
         if (string.IsNullOrEmpty(PageNameGet(stack)))
         {
@@ -1709,7 +1714,7 @@ public partial class FormMain
                 }
             }
 
-            PageChangeActual(stack, subType);
+            PageChangeActual(stack, subType, parameter);
         }
         else
         {
@@ -1746,7 +1751,7 @@ public partial class FormMain
                 }
             }
 
-            PageChangeActual(stack, subType);
+            PageChangeActual(stack, subType, parameter);
         }
     }
 
@@ -1781,8 +1786,9 @@ public partial class FormMain
     /// <summary>
     ///     切换现有页面的实际方法。
     /// </summary>
-    private void PageChangeActual(PageStackData stack, PageSubType subType)
+    private void PageChangeActual(PageStackData stack, PageSubType subType, object? parameter = null)
     {
+        _pendingParameter = parameter;
         if (pageCurrent == stack && (PageCurrentSub == subType || (int)subType == -1))
             return;
         ModAnimation.AniBeginControl();
@@ -1964,28 +1970,42 @@ public partial class FormMain
         ModAnimation.AniStop("FrmMain LeftChange");
         ModAnimation.AniStop("PageLeft PageChange"); // 停止左边栏变更导致的右页面切换动画，防止它与本动画一起触发多次 PageOnEnter
         ModAnimation.AniBeginControl();
-        // 清除新页面关联性
-        if (targetLeft.Parent is not null)
-            targetLeft.SetValue(ContentPresenter.ContentProperty, null);
-        if (targetRight is not null && targetRight.Parent is not null)
-            targetRight.SetValue(ContentPresenter.ContentProperty, null);
-        pageLeft = (MyPageLeft)targetLeft;
-        pageRight = (MyPageRight)targetRight;
-        // 触发页面通用动画
-        ((MyPageLeft)PanMainLeft.Child).TriggerHideAnimation();
-        ((MyPageRight)PanMainRight.Child).PageOnExit();
-        ModAnimation.AniEndControl();
+        try
+        {
+            // 清除新页面关联性
+            if (targetLeft.Parent is not null)
+                targetLeft.SetValue(ContentPresenter.ContentProperty, null);
+            if (targetRight is not null && targetRight.Parent is not null)
+                targetRight.SetValue(ContentPresenter.ContentProperty, null);
+            pageLeft = (MyPageLeft)targetLeft;
+            pageRight = (MyPageRight)targetRight;
+            // 触发页面通用动画
+            (PanMainLeft.Child as IPageView)?.OnNavigatedFrom();
+            ((MyPageLeft)PanMainLeft.Child).TriggerHideAnimation();
+            (PanMainRight.Child as IPageView)?.OnNavigatedFrom();
+            ((MyPageRight)PanMainRight.Child).PageOnExit();
+        }
+        finally
+        {
+            ModAnimation.AniEndControl();
+        }
         // 执行动画
         ModAnimation.AniStart(new[]
         {
             ModAnimation.AaCode(() =>
             {
                 ModAnimation.AniBeginControl();
-                // 把新页面添加进容器
-                PanMainLeft.Child = pageLeft;
-                pageLeft.Opacity = 0d;
-                PanMainLeft.Background = null;
-                ModAnimation.AniEndControl();
+                try
+                {
+                    // 把新页面添加进容器
+                    PanMainLeft.Child = pageLeft;
+                    pageLeft.Opacity = 0d;
+                    PanMainLeft.Background = null;
+                }
+                finally
+                {
+                    ModAnimation.AniEndControl();
+                }
                 ModBase.RunInUi(() => PanMainLeft_Resize(PanMainLeft.ActualWidth), true);
             }, 110),
             ModAnimation.AaCode(() =>
@@ -1993,6 +2013,7 @@ public partial class FormMain
                 // 延迟触发页面通用动画，以使得在 Loaded 事件中加载的控件得以处理
                 pageLeft.Opacity = 1d;
                 pageLeft.TriggerShowAnimation();
+                (pageLeft as IPageView)?.OnNavigatedTo(_pendingParameter);
             }, 30, true)
         }, "FrmMain PageChangeLeft");
         ModAnimation.AniStart(new[]
@@ -2000,12 +2021,18 @@ public partial class FormMain
             ModAnimation.AaCode(() =>
             {
                 ModAnimation.AniBeginControl();
-                ((MyPageRight)PanMainRight.Child).PageOnForceExit();
-                // 把新页面添加进容器
-                PanMainRight.Child = pageRight;
-                pageRight.Opacity = 0d;
-                PanMainRight.Background = null;
-                ModAnimation.AniEndControl();
+                try
+                {
+                    ((MyPageRight)PanMainRight.Child).PageOnForceExit();
+                    // 把新页面添加进容器
+                    PanMainRight.Child = pageRight;
+                    pageRight.Opacity = 0d;
+                    PanMainRight.Background = null;
+                }
+                finally
+                {
+                    ModAnimation.AniEndControl();
+                }
                 ModBase.RunInUi(() => BtnExtraBack.ShowRefresh(), true);
             }, 110),
             ModAnimation.AaCode(() =>
@@ -2013,8 +2040,10 @@ public partial class FormMain
                 // 延迟触发页面通用动画，以使得在 Loaded 事件中加载的控件得以处理
                 pageRight.Opacity = 1d;
                 pageRight.PageOnEnter();
+                (pageRight as IPageView)?.OnNavigatedTo(_pendingParameter);
             }, 30, true)
         }, "FrmMain PageChangeRight");
+        ((NavigationService)Navigation).RaiseNavigated(new RouteKey(pageCurrent.page, PageCurrentSub));
     }
 
     /// <summary>

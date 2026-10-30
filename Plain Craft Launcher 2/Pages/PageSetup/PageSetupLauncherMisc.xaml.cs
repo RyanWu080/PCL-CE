@@ -14,17 +14,30 @@ using PCL.Core.Utils.OS;
 
 namespace PCL;
 
-public partial class PageSetupLauncherMisc
+public partial class PageSetupLauncherMisc : IPageView
 {
+    private readonly PageSetupLauncherMiscViewModel _vm = new();
     private bool isFirstLoad = true;
 
     private new bool isLoaded;
 
+    private bool _refreshed;
+
     public PageSetupLauncherMisc()
     {
         InitializeComponent();
+        DataContext = _vm;
         Loaded += PageSetupLink_Loaded;
-        Loaded += (_, _) => Reload();
+        Loaded += (_, _) => Refresh();
+        Unloaded += PageSetupLauncherMisc_Unloaded;
+    }
+
+    public PageSetupLauncherMiscViewModel ViewModel => _vm;
+
+    public void OnNavigatedTo(object? parameter) => Refresh();
+
+    public void OnNavigatedFrom()
+    {
     }
 
     private void PageSetupLink_Loaded(object sender, RoutedEventArgs e)
@@ -39,14 +52,24 @@ public partial class PageSetupLauncherMisc
 
         ModAnimation.AniBeginControl();
         SliderLoad();
-        Reload();
+        Refresh();
         ModAnimation.AniEndControl();
+    }
+
+    private void PageSetupLauncherMisc_Unloaded(object sender, RoutedEventArgs e) => _refreshed = false;
+
+    private void Refresh()
+    {
+        if (_refreshed)
+            return;
+        _refreshed = true;
+        Reload();
     }
 
     public void Reload()
     {
         // 系统设置
-        ComboSystemActivity.SelectedIndex = States.System.AnnounceSolution;
+        _vm.Reload();
         CheckSystemDisableHardwareAcceleration.Checked = Config.System.DisableHardwareAcceleration;
         SliderAniFPS.Value = Config.System.AnimationFpsLimit;
         SliderMaxLog.Value = Config.System.MaxGameLog;
@@ -54,15 +77,11 @@ public partial class PageSetupLauncherMisc
         if (TelemetryService.IsBuildUntrusted)
         {
             CheckSystemTelemetry.Checked = false;
-            CheckSystemTelemetry.IsEnabled = false;
             CheckSystemTelemetry.ToolTip = Lang.Text("Setup.Misc.System.Telemetry.Unavailable");
             ToolTipService.SetShowOnDisabled(CheckSystemTelemetry, true);
         }
 
         // 网络
-        TextSystemHttpProxy.Text = Config.Network.HttpProxy.CustomAddress;
-        TextSystemHttpProxyCustomUsername.Text = Config.Network.HttpProxy.CustomUsername;
-        TextSystemHttpProxyCustomPassword.Text = Config.Network.HttpProxy.CustomPassword;
         ((MyRadioBox)FindName($"RadioHttpProxyType{Config.Network.HttpProxy.Type}")).SetChecked(true, false);
         CheckNetDohEnable.Checked = Config.Network.EnableDoH;
 
@@ -101,8 +120,9 @@ public partial class PageSetupLauncherMisc
     private void ComboChange(object senderRaw, SelectionChangedEventArgs e)
     {
         var sender = (MyComboBox)senderRaw;
-        if (!ModAnimation.AniExitsAnyControl())
-            SetByTag(sender.Tag?.ToString(), sender.SelectedIndex);
+        if (ModAnimation.AniExitsAnyControl() || sender.SelectedIndex < 0)
+            return;
+        SetByTag(sender.Tag?.ToString(), sender.SelectedIndex);
     }
 
     private void RadioBoxChange(object senderRaw, ModBase.RouteEventArgs e)
@@ -237,27 +257,31 @@ public partial class PageSetupLauncherMisc
 
     #region 停止使用 PCL CE
 
-    private void BtnSystemStopUsingPclCe_Click(object sender, MouseButtonEventArgs e)
+    private async void BtnSystemStopUsingPclCe_Click(object sender, MouseButtonEventArgs e)
     {
-        var result = ModMain.MyMsgBox(
-            Lang.Text("Setup.Misc.System.StopUsingPclCe.Message"),
-            Lang.Text("Setup.Misc.System.StopUsingPclCe.Title"),
-            Lang.Text("Common.Action.Continue"),
-            Lang.Text("Setup.Misc.System.StopUsingPclCe.ContinueAndRemove"),
-            Lang.Text("Common.Action.Cancel"),
-            isWarn: true);
-
-        if (result < 3)
+        try
         {
-            if (ModMain.MyMsgBox(
+            var result = await ModMain.MyMsgBoxAsync(
+                Lang.Text("Setup.Misc.System.StopUsingPclCe.Message"),
+                Lang.Text("Setup.Misc.System.StopUsingPclCe.Title"),
+                Lang.Text("Common.Action.Continue"),
+                Lang.Text("Setup.Misc.System.StopUsingPclCe.ContinueAndRemove"),
+                Lang.Text("Common.Action.Cancel"),
+                isWarn: true);
+
+            if (result >= 3) return;
+            if (await ModMain.MyMsgBoxAsync(
                     Lang.Text("Setup.Misc.System.StopUsingPclCe.Message.Final"),
                     Lang.Text("Common.Dialog.Warning"),
                     Lang.Text("Common.Action.Continue"),
                     Lang.Text("Common.Action.Cancel"),
                     isWarn: true) == 1)
-            {
                 StopUsingPClCeCore(result == 2);
-            }
+        }
+        catch (Exception ex)
+        {
+            ModBase.Log(ex, "停止使用 PCL CE 失败", ModBase.LogLevel.Msgbox,
+                userSummary: Lang.Text("Setup.Error.OperationFailed"));
         }
     }
 
